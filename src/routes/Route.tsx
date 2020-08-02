@@ -8,17 +8,21 @@ interface RoutePropsAdd extends RouteProps {
   component: React.ComponentType;
 }
 
-const Route: React.FC<RoutePropsAdd> = ({ component: Component, ...rest }) => {
+const Route: React.FC<RoutePropsAdd> = ({
+  isPrivate = false,
+  component: Component,
+  ...rest
+}) => {
   const { signed } = useAuth();
 
-  if (!signed) {
+  if (!signed && isPrivate) {
     return <Redirect to="/" />;
   }
 
   return (
     <RouteDOM
       {...rest}
-      render={({ location }) => {
+      render={() => {
         return <Component />;
       }}
     />

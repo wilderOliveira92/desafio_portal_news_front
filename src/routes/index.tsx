@@ -10,8 +10,8 @@ import News from '../pages/News';
 const Router: React.FC = () => (
   <Switch>
     <Route path="/" exact component={SignIn} />
-    <Route path="/dashboard" component={Dashboard} />
-    <Route path="/news" component={News} />
+    <Route path="/dashboard" component={Dashboard} isPrivate />
+    <Route path="/news" component={News} isPrivate />
   </Switch>
 );
 

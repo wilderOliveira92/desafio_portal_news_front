@@ -32,13 +32,13 @@ const Dashboard: React.FC = () => {
             id: oneNews.id,
             title: oneNews.title,
             content: oneNews.content,
-            publication: format(
-              parseISO(oneNews.publication),
-              "d 'de' MMMM 'de' yyyy",
-              { locale: pt },
-            ),
+            publication: format(parseISO(oneNews.publication), 'yyyy-MM-dd', {
+              locale: pt,
+            }),
           };
         });
+
+        //"d 'de' MMMM 'de' yyyy",
 
         setNews(newsFormated);
       } catch (err) {
@@ -68,6 +68,10 @@ const Dashboard: React.FC = () => {
     }
   }
 
+  async function handleUpdate(oneNews: INewsData) {
+    history.push({ pathname: '/news', state: { oneNews } });
+  }
+
   return (
     <Container>
       <Sign>
@@ -91,11 +95,21 @@ const Dashboard: React.FC = () => {
           news.map((oneNews) => (
             <li key={oneNews.id}>
               <strong>{oneNews.title}</strong>
-              <span>Publicação em {oneNews.publication}</span>
+              <span>
+                Publicação em {oneNews.publication}
+                {/* {oneNews.publication &&
+                  format(
+                    parseISO(oneNews.publication),
+                    "d 'de' MMMM 'de' yyyy",
+                    {
+                      locale: pt,
+                    },
+                  )} */}
+              </span>
               <p>{oneNews.content}</p>
 
               <div>
-                <button type="submit" onClick={() => handleDelete(oneNews.id)}>
+                <button type="submit" onClick={() => handleUpdate(oneNews)}>
                   editar
                 </button>
                 <button type="submit" onClick={() => handleDelete(oneNews.id)}>
