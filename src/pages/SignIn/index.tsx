@@ -1,36 +1,56 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
+import { FiMail, FiLock } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+
 import { useAuth } from '../../hooks/Auth';
 
+import Input from '../../components/Input';
+
 import { Container } from './styles';
+
+interface SignInFormData {
+  email: string;
+  password: string;
+}
 
 const SignIn: React.FC = () => {
   const { signIn, user } = useAuth();
   const history = useHistory();
+  const formRef = useRef<FormHandles>(null);
 
-  const [email, setEmail] = useState('wilder@gmail.com');
-  const [password, setPassword] = useState('123456');
+  async function handleSubmit(data: SignInFormData) {
+    try {
+      const { email, password } = data;
+      await signIn({ email, password });
 
-  console.log(user);
-
-  async function handleSubmit() {
-    await signIn({ email, password });
-
-    history.push('/dashboard');
+      history.push('/dashboard');
+    } catch (err) {
+      toast.error('Falha na autenticação.');
+    }
   }
 
   return (
     <Container>
       <h1>Faça seu login</h1>
 
-      <Form onSubmit={handleSubmit}>
-        <input type="email" id="email" />
-        <input type="text" id="password" />
-        <input type="submit" value="Entrar" />
+      <Form ref={formRef} onSubmit={handleSubmit}>
+        <Input
+          name="email"
+          type="email"
+          placeholder="Seu E-mail"
+          icon={FiMail}
+        />
+        <Input
+          name="password"
+          type="password"
+          placeholder="Sua senha"
+          icon={FiLock}
+        />
+        <button type="submit">Entrar</button>
       </Form>
-
-      <h1>SignIn</h1>
     </Container>
   );
 };

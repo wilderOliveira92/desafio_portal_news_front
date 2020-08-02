@@ -10,7 +10,7 @@ interface AuthContextData {
   user: object;
   signIn(credentials: SignInData): Promise<void>;
   signOut(): void;
-  token: string;
+  signed: boolean;
 }
 
 interface AuthData {
@@ -21,7 +21,21 @@ interface AuthData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AuthData>({} as AuthData);
+  const [data, setData] = useState<AuthData>(() => {
+    const token = localStorage.getItem('@News:token');
+    const user = localStorage.getItem('@News:user');
+
+    if (token && user) {
+      api.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+      return {
+        token,
+        user: JSON.parse(user),
+      };
+    }
+
+    return {} as AuthData;
+  });
 
   const signIn = useCallback(async ({ email, password }): Promise<void> => {
     console.log('SignIn');
@@ -29,17 +43,26 @@ const AuthProvider: React.FC = ({ children }) => {
 
     const { token, user } = response.data;
 
+    if (token) {
+      api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    }
+    localStorage.setItem('@News:token', token);
+    localStorage.setItem('@News:user', JSON.stringify(user));
+
     setData({ token, user });
   }, []);
 
   const signOut = useCallback(async (): Promise<void> => {
-    console.log('signOut');
+    localStorage.removeItem('@News:token');
+    localStorage.removeItem('@News:user');
+
+    api.defaults.headers['Authorization'] = '';
     setData({} as AuthData);
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ token: data.token, user: data.user, signIn, signOut }}
+      value={{ signed: !!data.user, user: data.user, signIn, signOut }}
     >
       {children}
     </AuthContext.Provider>
