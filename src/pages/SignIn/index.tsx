@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { FiMail, FiLock } from 'react-icons/fi';
+import { FiMail, FiLock, FiLogIn } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
 import { useAuth } from '../../hooks/Auth';
@@ -17,7 +17,7 @@ interface SignInFormData {
 }
 
 const SignIn: React.FC = () => {
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
   const history = useHistory();
   const formRef = useRef<FormHandles>(null);
 
@@ -51,6 +51,11 @@ const SignIn: React.FC = () => {
         />
         <button type="submit">Entrar</button>
       </Form>
+
+      <Link to="/signup">
+        <FiLogIn />
+        <span>Criar usuário</span>
+      </Link>
     </Container>
   );
 };

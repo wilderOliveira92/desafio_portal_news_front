@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  height: 100vh;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +8,13 @@ export const Container = styled.div`
 
   header {
     display: flex;
+    align-items: center;
     justify-content: center;
+    margin-top: 30px;
+
+    strong {
+      font-size: 40px;
+    }
   }
 
   form {
@@ -34,22 +38,20 @@ export const Container = styled.div`
       font-size: 16px;
     }
 
-    div {
+    button {
+      background: #e39532;
+      border-radius: 8px;
+      height: 40px;
+      width: 100%;
+    }
+
+    a {
       display: flex;
+      align-items: center;
+      margin: 5px;
 
-      button {
-        background: #e39532;
-        border-radius: 8px;
-        height: 30px;
-        width: 100px;
-      }
-
-      a {
-        background: #e39532;
-        border-radius: 8px;
-        height: 30px;
-        width: 100px;
-        padding: 10px;
+      span {
+        margin-left: 5px;
       }
     }
   }

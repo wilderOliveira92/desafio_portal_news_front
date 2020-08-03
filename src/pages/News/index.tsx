@@ -3,9 +3,12 @@ import { Link, useLocation, useHistory } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { toast } from 'react-toastify';
+import { FiArrowLeft } from 'react-icons/fi';
+import { format, parseISO } from 'date-fns';
 
 import Input from '../../components/Input';
 import TextArea from '../../components/TextArea';
+import Header from '../Header';
 import api from '../../services/api';
 
 import { Container } from './styles';
@@ -26,6 +29,9 @@ const News: React.FC = () => {
 
   async function handleSubmit(data: FormData) {
     try {
+      const dataFormated = new Date(String(data.publication) + ' 12:00:00');
+      data.publication = dataFormated;
+
       const response = await api.post('/news', data);
       console.log(response.data);
 
@@ -39,8 +45,10 @@ const News: React.FC = () => {
 
   async function handleUpdate(data: FormData) {
     try {
-      console.log(data);
-      const response = await api.patch(`/news/${state?.oneNews.id}`, data);
+      const dataFormated = new Date(String(data.publication) + ' 12:00:00');
+      data.publication = dataFormated;
+
+      await api.patch(`/news/${state?.oneNews.id}`, data);
 
       toast.success('Notícia Alterada com sucesso.');
 
@@ -52,8 +60,10 @@ const News: React.FC = () => {
 
   return (
     <Container>
+      <Header />
       <header>
-        <h1>Cadatro de notícias</h1>
+        <span></span>
+        <strong>Cadatro de notícias</strong>
       </header>
       <Form
         initialData={state?.oneNews}
@@ -73,12 +83,14 @@ const News: React.FC = () => {
           cols={30}
           rows={10}
         />
-        <div>
-          <button type="submit">
-            {state?.oneNews ? 'Alterar' : 'Cadastrar'}
-          </button>
-          <Link to="/dashboard">Voltar</Link>
-        </div>
+
+        <button type="submit">
+          {state?.oneNews ? 'Alterar' : 'Cadastrar'}
+        </button>
+        <Link to="/dashboard">
+          <FiArrowLeft />
+          <span>Voltar</span>
+        </Link>
       </Form>
     </Container>
   );

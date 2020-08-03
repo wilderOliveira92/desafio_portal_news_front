@@ -7,7 +7,7 @@ interface InputProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 const TextArea: React.FC<InputProps> = ({ name, ...rest }) => {
   const inputRef = useRef(null);
-  const { fieldName, defaultValue, registerField, error } = useField(name);
+  const { fieldName, defaultValue, registerField } = useField(name);
 
   useEffect(() => {
     registerField({

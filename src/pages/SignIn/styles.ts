@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { shade } from 'polished';
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 50vh;
 
   display: flex;
   align-items: center;
@@ -30,6 +30,15 @@ export const Container = styled.div`
       &:hover {
         background: ${shade(0.2, '#e39532')};
       }
+    }
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 5px;
     }
   }
 `;

@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  height: 100vh;
-  width: 80%;
-  margin: auto;
-  margin-top: 20px;
-
   header {
     display: flex;
     align-items: center;
@@ -17,7 +12,7 @@ export const Container = styled.div`
     }
   }
 
-  div {
+  #create-new {
     display: flex;
     align-items: center;
     justify-content: right;
@@ -31,7 +26,7 @@ export const Container = styled.div`
   ul {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-gap: 15px;
     margin-top: 10px;
 
@@ -47,27 +42,25 @@ export const Container = styled.div`
         justify-content: center;
       }
 
-      span {
-        display: flex;
-        margin-top: 8px;
-        font-size: 12px;
-        justify-content: left;
-      }
-
       p {
         margin-top: 20px;
         color: #201f1e;
       }
+
       div {
         display: flex;
         align-items: center;
-        justify-content: right;
+        justify-content: space-between;
 
-        button {
-          background: #e39532;
-          border-radius: 8px;
-          height: 30px;
-          width: 100px;
+        span {
+          display: flex;
+          margin-top: 8px;
+          font-size: 12px;
+          justify-content: left;
+        }
+
+        a {
+          margin-left: 10px;
         }
       }
     }

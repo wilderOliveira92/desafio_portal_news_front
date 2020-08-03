@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import { FiPlusSquare, FiLogOut } from 'react-icons/fi';
+import { FiPlusSquare, FiEdit } from 'react-icons/fi';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 
-import { useAuth } from '../../hooks/Auth';
+import Header from '../Header';
 import api from '../../services/api';
-import { Container, Sign } from './styles';
+import { Container } from './styles';
 
 interface INewsData {
   id: string;
@@ -17,7 +18,6 @@ interface INewsData {
 }
 
 const Dashboard: React.FC = () => {
-  const { signOut } = useAuth();
   const history = useHistory();
 
   const [news, setNews] = useState<INewsData[]>([] as INewsData[]);
@@ -49,11 +49,6 @@ const Dashboard: React.FC = () => {
     listNews();
   }, []);
 
-  function handleLogOut() {
-    signOut();
-    history.push('/');
-  }
-
   async function handleDelete(id: string) {
     try {
       await api.delete(`news/${id}`);
@@ -74,18 +69,13 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container>
-      <Sign>
-        <button type="button" onClick={handleLogOut}>
-          Sair
-        </button>
-        <FiLogOut size={20} />
-      </Sign>
+      <Header />
       <header>
         <span></span>
         <strong>Portal News</strong>
       </header>
 
-      <div>
+      <div id="create-new">
         <Link to="/news">{<FiPlusSquare size={25} />}</Link>
         <span> Criar notícia</span>
       </div>
@@ -95,27 +85,28 @@ const Dashboard: React.FC = () => {
           news.map((oneNews) => (
             <li key={oneNews.id}>
               <strong>{oneNews.title}</strong>
-              <span>
-                Publicação em {oneNews.publication}
-                {/* {oneNews.publication &&
-                  format(
-                    parseISO(oneNews.publication),
-                    "d 'de' MMMM 'de' yyyy",
-                    {
-                      locale: pt,
-                    },
-                  )} */}
-              </span>
-              <p>{oneNews.content}</p>
-
               <div>
-                <button type="submit" onClick={() => handleUpdate(oneNews)}>
-                  editar
-                </button>
-                <button type="submit" onClick={() => handleDelete(oneNews.id)}>
-                  excluir
-                </button>
+                <span>
+                  Publicação em{' '}
+                  {oneNews.publication &&
+                    format(
+                      parseISO(oneNews.publication),
+                      "d 'de' MMMM 'de' yyyy",
+                      {
+                        locale: pt,
+                      },
+                    )}
+                </span>
+                <div>
+                  <a onClick={() => handleUpdate(oneNews)}>
+                    <FiEdit size={20} />
+                  </a>
+                  <a onClick={() => handleDelete(oneNews.id)}>
+                    <AiOutlineDelete size={20} />
+                  </a>
+                </div>
               </div>
+              <p>{oneNews.content}</p>
             </li>
           ))}
       </ul>

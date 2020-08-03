@@ -10,6 +10,11 @@ export default createGlobalStyle`
   }
 
   body {
+    height: 100vh;
+    width: 80%;
+    max-width: 800px ;
+    margin: auto;
+    margin-top: 20px;
     background: #f0f0f5;
     color: #201f1e;
     --webkit-font-smoothing: antialiased;
@@ -26,6 +31,7 @@ export default createGlobalStyle`
 
   a {
     text-decoration: none;
+    color: #201f1e;
   }
 
   button {
